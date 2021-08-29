@@ -1,0 +1,9 @@
+{
+  "name": "raspis",
+  "version": "0.0.0",
+  "description": "Raspis",
+  "main": "server.js",
+  "author": {
+    "name": ""
+  }
+}
