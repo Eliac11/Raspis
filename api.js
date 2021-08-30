@@ -15,7 +15,7 @@ var SetUsers = (fun) => {
     fs.writeFileSync("./data/usersID.json", JSON.stringify(users, null, 2))
 }
 module.exports.SetUsers = SetUsers
-
+SetUsers(() => {})
 
 var SetOch = (fun) => {
     fun(ocher)
@@ -96,7 +96,7 @@ var chekAdmin = (req) => {
 
 
 var UserAuth = (res,req,zap) => {
-    if (zap.myid in users && users[zap.myid].role == "admin") {
+    if (zap.myid in users && users[zap.myid].role == "Admin") {
         
         res.writeHead(200, { 'Content-Type': 'text/plain', 'Set-Cookie': "token=" + zap.myid })
         res.end("ok")

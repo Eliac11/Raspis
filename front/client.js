@@ -1,3 +1,4 @@
+var iAdmin = false
 
 var e = (data) => {
     t.innerHTML = data
