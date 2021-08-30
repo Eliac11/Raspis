@@ -13,7 +13,7 @@ def getToken(l=3):
         if not t in d:
             return t
 
-primerUserInfo = {"name":"","enterToken":"","kolder":0,"Datalastder":"","Ascores":0,"Mscores":0}
+primerUserInfo = {"name":"","enterToken":"","kolder":0,"penaltyday":0,"Datalastder":"","Ascores":0,"Mscores":0,"role":"user"} #admin
 
 while 1:
     name = input("name:  ")
@@ -27,6 +27,7 @@ while 1:
 
     d[getToken()] = nuser
 
-
-with open("data//usersID.json","w") as f :
-    json.dump(d,f,indent=2)
+print(d)
+input()
+with open("data//__usersID.json","w") as f :
+    json.dump(d,f,indent=2,ensure_ascii=False)

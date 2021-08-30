@@ -1,0 +1,21 @@
+{
+  "data": "30.08.2021",
+  "yesterday": {
+    "id": "7S3",
+    "class": false,
+    "value": 0
+  },
+  "today": {
+    "id": "X32",
+    "priced": false,
+    "value": 0
+  },
+  "morn": [
+    "N4B",
+    "JUW",
+    "XIQ",
+    "X32",
+    "7S3",
+    "HVW"
+  ]
+}

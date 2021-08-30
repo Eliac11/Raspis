@@ -5,22 +5,14 @@ var port = process.env.PORT || 1337;
 var fs = require('fs')
 var myapi = require('./api.js')
 
+console.log( new Date().toLocaleDateString())
+
+
 var FileMeneger = function (filePath) {
 
     return fs.readFileSync(filePath, 'utf8')
 }
-var users = require("./data/usersID.json")
-var WinJson = (path,fun) => {
-    
 
-    fun(users)
-
-    fs.writeFileSync(path, JSON.stringify(users,null,2))
-}
-
-WinJson("./data/usersID.json", (data) => {
-    data.SJ2.name = "111"
-})
 
 var server = http.createServer(function (req, res) {
     console.log(req.method, req.url, "----", req.headers.cookie)
@@ -33,15 +25,23 @@ var server = http.createServer(function (req, res) {
                 res.writeHead(200, { 'Content-Type': 'text/html' });
                 res.end(FileMeneger("front/index.html"));
                 break
+            case "/auth":
+                res.writeHead(200, { 'Content-Type': 'text/html'});
+                res.end(FileMeneger("front/auth.html"));
+                break
 
             case "/main.css":
                 res.writeHead(200, { 'Content-Type': 'text/css' });
                 res.end(FileMeneger("front/main.css"));
                 break
-
+                
             case "/client.js":
                 res.writeHead(200, { 'Content-Type': 'text/js' });
                 res.end(FileMeneger("front/client.js"));
+                break
+            case "/auth-client.js":
+                res.writeHead(200, { 'Content-Type': 'text/js' });
+                res.end(FileMeneger("front/auth-client.js"));
                 break
 
             default:
@@ -57,7 +57,7 @@ var server = http.createServer(function (req, res) {
     
 })
 
-server.listen(port,"192.168.99.6")
+server.listen(port,"localhost")
     
 
 

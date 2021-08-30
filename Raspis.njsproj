@@ -28,9 +28,12 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="data\och.json" />
     <Content Include="data\usersID.json">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="front\auth.html" />
+    <Content Include="front\auth-client.js" />
     <Content Include="front\index.html">
       <SubType>Code</SubType>
     </Content>
