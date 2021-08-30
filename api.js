@@ -31,7 +31,7 @@ var Getrandomder = () => {
     
 
     for (var i in users) {
-        if (!(i in ocher.morn)) {
+        if (ocher.morn.indexOf(i) === -1 && i != ocher.yesterday.id) {
             console.log(i)
             var balu = users[i].kolder - users[i].penaltyday
 
