@@ -7,7 +7,7 @@ var ocher = require("./data/och.json")
 
 
 
-console.log(users)
+//console.log(users)
 
 var SetUsers = (fun) => {
     fun(users)
@@ -15,7 +15,7 @@ var SetUsers = (fun) => {
     fs.writeFileSync("./data/usersID.json", JSON.stringify(users, null, 2))
 }
 module.exports.SetUsers = SetUsers
-SetUsers(() => {})
+
 
 var SetOch = (fun) => {
     fun(ocher)
@@ -32,7 +32,6 @@ var Getrandomder = () => {
 
     for (var i in users) {
         if (ocher.morn.indexOf(i) === -1 && i != ocher.yesterday.id) {
-            console.log(i)
             var balu = users[i].kolder - users[i].penaltyday
 
             if (balu < minznach) {
@@ -49,6 +48,9 @@ var Getrandomder = () => {
 }
 
 var fillOch = () => {
+
+    console.log('проверка даты')
+
     var now = new Date()
     SetOch(() => {
 
@@ -56,17 +58,12 @@ var fillOch = () => {
                 ocher.morn.push(Getrandomder())
         }
 
-        if (ocher.data == now.toLocaleDateString()) {
-            if (ocher.today.id == "") {
-                var zav = ocher.morn.shift()
-                ocher.today = {
-                    "id": zav,
-                    "priced": false,
-                    "value": 0
-                }
-            }
-        }
-        else {
+        if (ocher.data != now.toLocaleDateString()) {
+            console.log('да, передвигаю всех')
+            ocher.yesterday = ocher.today
+
+            
+
             var zav = ocher.morn.shift()
             ocher.today = {
                 "id": zav,
@@ -80,20 +77,31 @@ var fillOch = () => {
 fillOch()
 console.log(ocher)
 
-var getCookie = (req,name) => {
-    let matches = req.headers.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
+setInterval(fillOch,60000)
+
+var getCookie = (req, name) => {
+    if (req.headers.cookie != undefined) {
+        let matches = req.headers.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+    return undefined
 }
 var chekAdmin = (req) => {
-    var tok = getCookie(req,"token")
-    if (tok in users && users[tok].role == "Admin") {
-        return true
+    var tok = getCookie(req, "token")
+    if (users[tok] != undefined) {
+        if (users[tok].role == "Admin") {
+            return true
+        }
+        return false
     }
     return false
-}
 
+    
+
+}
+module.exports.chekAdmin = chekAdmin
 
 var UserAuth = (res,req,zap) => {
     if (zap.myid in users && users[zap.myid].role == "Admin") {
@@ -113,7 +121,7 @@ var UserAuth = (res,req,zap) => {
 
 var GetAllData = (res, req) => {
     var inf = {}
-    inf = Object.assign(inf,ocher)
+    Object.assign(inf,ocher)
     inf.morn2 = {}
     inf.yesterday.name = users[inf.yesterday.id].name
     inf.today.name = users[inf.today.id].name
@@ -127,7 +135,62 @@ var GetAllData = (res, req) => {
     res.end(JSON.stringify(inf))
 }
 
-
+var classUser = (res, reg, data) => {
+    if (data.id != ocher.today.id) {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end("today ne tot");
+        return
+    }
+    if (ocher.today.priced) {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end("today priced");
+        return
+    }
+    //не выполнял об
+    if (data.what == "kill") {
+        SetUsers(() => {
+            users[data.id].Ascores -= 5
+            users[data.id].penaltyday += 1
+        })
+        SetOch(() => {
+            ocher.today.priced = true;
+            ocher.today.value = -5
+        })
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end("ok");
+        console.log(data.id, "kk")
+    }
+    //отсутствует
+    else if (data.what == "beaway") {
+        var zav = ocher.morn.shift()
+        ocher.today = {
+            "id": zav,
+            "priced": false,
+            "value": 0
+        }
+        while (ocher.morn.length < 6) {
+            ocher.morn.push(Getrandomder())
+        }
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end("ok");
+    }
+    //оценка
+    else if (data.what == "class") {
+        SetUsers(() => {
+            users[data.id].Ascores += Number(data.value)
+            users[data.id].kolder += 1
+        })
+        SetOch(() => {
+            ocher.today.priced = true;
+            ocher.today.value = Number(data.value)
+        })
+    }
+    //мда
+    else {
+        res.writeHead(400, { 'Content-Type': 'text/plain' });
+        res.end("hmmm");
+    }
+}
 
 module.exports.APIanswer = function (res, req) {
     var data = ''
@@ -141,7 +204,20 @@ module.exports.APIanswer = function (res, req) {
             UserAuth(res, req, data)
         }
         else if (data.target == "getalldata") {
-            GetAllData(res,req)
+            GetAllData(res, req)
+        }
+        else if (data.target == "Classder") {
+            if (chekAdmin(req)) {
+                classUser(res, req, data)
+            }
+            else {
+                res.writeHead(403, { 'Content-Type': 'text/plain' });
+                res.end("ты не админ ты как это отправил");
+            }
+        }
+        else {
+            res.writeHead(400, { 'Content-Type': 'text/plain' });
+            res.end("и что ты это мне кинул");
         }
         
         //'Set-Cookie': 'token=5b49adaaf7687fa'

@@ -5,8 +5,7 @@ var port = process.env.PORT || 1337;
 var fs = require('fs')
 var myapi = require('./api.js')
 
-console.log( new Date().toLocaleDateString())
-
+var confg = require('./config.js')
 
 var FileMeneger = function (filePath) {
 
@@ -37,7 +36,26 @@ var server = http.createServer(function (req, res) {
                 
             case "/client.js":
                 res.writeHead(200, { 'Content-Type': 'text/js' });
-                res.end(FileMeneger("front/client.js"));
+                var codejs = FileMeneger("front/client.js")
+                if (myapi.chekAdmin(req)) {
+                    codejs = codejs.replace("var iAdmin = false","var iAdmin = true")
+                }
+                res.end(codejs);
+                break
+            case "/clientAdminCode.js":
+                res.writeHead(200, { 'Content-Type': 'text/js' });
+                
+                if (myapi.chekAdmin(req)) {
+                    var codejs = FileMeneger("front/clientAdminCode.js")
+                    codejs = codejs.replace("var iAdmin = false", "var iAdmin = true")
+                    res.end(codejs);
+                }
+                else {
+                    res.end(`//ну ты не админ 
+CPan = document.getElementById("cntrlP1")
+CPan.style = "display:none;"`);
+                }
+                
                 break
             case "/auth-client.js":
                 res.writeHead(200, { 'Content-Type': 'text/js' });
@@ -57,7 +75,7 @@ var server = http.createServer(function (req, res) {
     
 })
 
-server.listen(port,"localhost")
+server.listen(confg.port,confg.ip)
     
 
 

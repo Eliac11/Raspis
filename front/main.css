@@ -2,3 +2,47 @@
     font-size: 100px;
     color: chartreuse
 }
+.cntrlpanel {
+    display: flex;
+    height: auto;
+    width: 100%;
+    position: relative;
+    justify-content:center
+}
+
+#dialogWin{
+    position:absolute;
+    display:none;
+    background-color:rgba(0, 0, 0, 0.74);
+    width:100%;
+    height:100%;
+    z-index:100;
+    justify-content:center;
+    align-items:center;
+}
+#dialogWin > input{
+    font-size:100px;
+    width:2ch;
+    text-align:center;
+}
+#dialogWin > div {
+    font-size: 100px;
+    text-align: center;
+    background-color:chartreuse;
+    margin:30px
+}
+
+.butt {
+    width: 120px;
+}
+
+#Bkill{
+    background-color:red;
+}
+#Bbeaway {
+    background-color: dimgrey;
+    margin: 0 25%;
+}
+#Bclass {
+    background-color: darkgreen;
+}

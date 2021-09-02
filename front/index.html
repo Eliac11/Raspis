@@ -6,22 +6,40 @@
     <title>по-русски</title>
     <link rel="stylesheet" href="main.css">
 </head>
-<body style="display:flex;justify-content:center;align-items:center; height:100vh; width:auto; background-color:#5a5a5a">
+<body style="display:flex;justify-content:center;align-items:center; height:100vh;width:auto; background-color:#5a5a5a">
+    <div id="dialogWin">
+        <input id="valueinp" maxlength="1" />
+        <div id="sendBut">ок</div>
+    </div>
+
+    <div id="debuginfo" style="position:absolute;top:100%;font-size:80px;height:40px"></div>
+
     <div style="text-align:center; font-size:5vh">
-        <div style="color:darkgray; margin: 2vh">
-            <div id="1-Name">Vasa</div>
+        <div style="color:darkgray; margin: 3vh">
+            <div style="font-size:30px">вчера</div>
+            <div id="1-Name">---</div>
             <div style="font-size:20px"> <div id="1-kolder">78</div></div>
         </div>
-        <div style="color:chartreuse; margin: 3vh; transform:scale(1.5)">
-            <div id="2-Name">Fada</div>
-            <div style="font-size:20px"> <div id="2-kolder">50</div></div>
+        <div class="YDder" style="color:chartreuse; margin: 3vh;  background-color:darkgrey">
+            <div id="nowdate" style="font-size:30px">---</div>
+            <div id="2-Name">---------------------</div>
+            <div style="font-size:20px"> <div id="2-kolder">50</div></div><div id="galka" style="font-size:60px"></div>
         </div>
-        <div style="color: darkgray;margin: 2vh">
-            <div id="3-Name">Rola</div>
+        <div class="cntrlpanel" id="cntrlP1">
+            <div class="butt" id="Bkill">!</div>
+            <div class="butt" id="Bbeaway">?</div>
+            <div class="butt" id="Bclass">
+                &#8793;
+            </div>
+        </div>
+        <div style="color: darkgray;margin: 3vh">
+            <div style="font-size:30px">завтра</div>
+            <div id="3-Name">---</div>
             <div style="font-size:20px"> <div id="3-kolder">46</div></div>
         </div>
     </div>
 
     <script src="client.js"></script>
+    <script src="clientAdminCode.js"></script>
 </body>
 </html>
