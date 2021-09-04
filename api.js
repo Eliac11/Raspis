@@ -47,37 +47,52 @@ var Getrandomder = () => {
     return vibor[Math.floor(Math.random()*vibor.length)]
 }
 
+var todate = (s) => {
+    var l = s.split(".")
+    l = l.map(function (x) {return parseInt(x, 10)});
+    console.log(l)
+    return new Date(l[2],l[1]-1,l[0])
+}
+
 var fillOch = () => {
 
     console.log('проверка даты')
 
     var now = new Date()
+
     SetOch(() => {
 
         while (ocher.morn.length < 6) {
                 ocher.morn.push(Getrandomder())
         }
+        console.log(todate(now.toLocaleDateString()) - todate(ocher.data))
+        if (todate(now.toLocaleDateString()) - todate(ocher.data) > 0) {
+            console.log('да, день сменился')
+            if (ocher.today.priced) {
+                console.log('да, оценен передвиг')
+                ocher.yesterday = ocher.today
 
-        if (ocher.data != now.toLocaleDateString()) {
-            console.log('да, передвигаю всех')
-            ocher.yesterday = ocher.today
-
-            
-
-            var zav = ocher.morn.shift()
-            ocher.today = {
-                "id": zav,
-                "priced": false,
-                "value": 0
+                var zav = ocher.morn.shift()
+                ocher.today = {
+                    "id": zav,
+                    "priced": false,
+                    "value": 0
+                }
+                var sled = todate(ocher.data)
+                sled.setDate(sled.getDate() + 1)
+                if (sled.getDay() == 0) {
+                    sled.setDate(sled.getDate() + 1)
+                }
+                ocher.data = sled.toLocaleDateString()
             }
-            ocher.data = now.toLocaleDateString()
+            
         }
     })
 }
 fillOch()
 console.log(ocher)
 
-setInterval(fillOch,60000)
+setInterval(fillOch,6000)
 
 var getCookie = (req, name) => {
     if (req.headers.cookie != undefined) {
@@ -146,6 +161,13 @@ var classUser = (res, reg, data) => {
         res.end("today priced");
         return
     }
+    if (todate(new Date().toLocaleDateString()) - todate(ocher.data) < 0) {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end("on tolko zavtra");
+        return
+    }
+
+
     //не выполнял об
     if (data.what == "kill") {
         SetUsers(() => {
