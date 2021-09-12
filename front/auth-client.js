@@ -26,7 +26,7 @@ b.onclick = () => {
    
     xhttp.open("POST", window.URL, true)
     //application/x-www-form-urlencoded
-    xhttp.setRequestHeader("Content-Type", "'text/plain'")
+    xhttp.setRequestHeader("Content-Type", 'application/json')
 
     var zapros = {"target":"enter","myid":uid.value}
 
