@@ -92,7 +92,7 @@ var fillOch = () => {
 fillOch()
 console.log(ocher)
 
-setInterval(fillOch,6000)
+setInterval(fillOch,8000)
 
 var getCookie = (req, name) => {
     if (req.headers.cookie != undefined) {
@@ -134,7 +134,7 @@ var UserAuth = (res,req,zap) => {
 
 }
 
-var GetAllData = (res, req) => {
+var GetAllOch = (res, req) => {
     var inf = {}
     Object.assign(inf,ocher)
     inf.morn2 = {}
@@ -148,6 +148,21 @@ var GetAllData = (res, req) => {
 
     res.writeHead(200, { 'Content-Type': 'text/plain' })
     res.end(JSON.stringify(inf))
+}
+var GetAllData = (res, req) => {
+    var l = []
+    for (var i in users) {
+        var u = []
+
+        u.push(users[i].name)
+        u.push(users[i].kolder)
+        u.push(users[i].penaltyday)
+        u.push(users[i].Ascores)
+
+        l.push(u)
+    }
+    res.writeHead(200, { 'Content-Type': 'text/plain' })
+    res.end(JSON.stringify(l))
 }
 
 var classUser = (res, reg, data) => {
@@ -225,7 +240,10 @@ module.exports.APIanswer = function (res, req) {
         if (data.target == "enter") {
             UserAuth(res, req, data)
         }
-        else if (data.target == "getalldata") {
+        else if (data.target == "getalloch") {
+            GetAllOch(res, req)
+        }
+        else if (data.target == "getallData") {
             GetAllData(res, req)
         }
         else if (data.target == "Classder") {

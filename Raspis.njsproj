@@ -35,6 +35,8 @@
       <SubType>Code</SubType>
     </Content>
     <None Include="FolderProfile.pubxml" />
+    <Content Include="front\table.js" />
+    <Content Include="front\infotable.html" />
     <Content Include="front\auth.html" />
     <Content Include="front\auth-client.js" />
     <Content Include="front\clientAdminCode.js" />
@@ -43,6 +45,9 @@
     </Content>
     <Content Include="front\client.js" />
     <Content Include="api.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="front\csstable.css">
       <SubType>Code</SubType>
     </Content>
     <Content Include="log.py">

@@ -24,7 +24,7 @@ dgalka = document.getElementById("galka")
 var Data = "";
 
 
-var updatedata = () => {
+var updateoch = () => {
     var xhttp = new XMLHttpRequest()
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -54,10 +54,10 @@ var updatedata = () => {
 
     xhttp.setRequestHeader("Content-Type", "application/json")
 
-    var zapros = { "target": "getalldata"}
+    var zapros = { "target": "getalloch"}
 
     xhttp.send(JSON.stringify(zapros))
 }
-updatedata()
+updateoch()
 
 

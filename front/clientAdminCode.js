@@ -31,7 +31,7 @@ Bkill.onclick = () => {
         console.log(r)
         setdebuginfo(r)
     })
-    updatedata()
+    updateoch()
 }
 
 Bbeaway = document.getElementById("Bbeaway")
@@ -41,7 +41,7 @@ Bbeaway.onclick = () => {
         console.log(r)
         setdebuginfo(r)
     })
-    updatedata()
+    updateoch()
 }
 
 Bclass = document.getElementById("Bclass")
@@ -69,7 +69,7 @@ sendBut.onclick = () => {
         console.log(r)
         setdebuginfo(r)
     })
-    updatedata()
+    updateoch()
     dialogWin.style = "display:none;"
 }
 

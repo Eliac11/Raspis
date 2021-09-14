@@ -1,0 +1,39 @@
+.tsort table {
+    margin: 30px;
+}
+
+.tsort th {
+    color: #ffebcd;
+    background: #008b8b;
+    cursor: pointer;
+}
+
+.tsort td,
+.tsort th {
+    text-align: center;
+    border: 2px solid #846868;
+}
+.tsort tbody tr {
+    background: #846868;
+}
+.tsort tbody tr:nth-child(even) {
+    background: #e3e3e3;
+}
+
+th.sorted[data-order="1"],
+th.sorted[data-order="-1"] {
+    position: relative;
+}
+
+    th.sorted[data-order="1"]::after,
+    th.sorted[data-order="-1"]::after {
+        top: 8px;
+    }
+
+    th.sorted[data-order="-1"]::after {
+        content: "▼"
+    }
+
+    th.sorted[data-order="1"]::after {
+        content: "▲"
+    }

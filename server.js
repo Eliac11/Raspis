@@ -21,34 +21,47 @@ var server = http.createServer(function (req, res) {
         switch (req.url) {
             
             case "/":
-                res.writeHead(200, { 'Content-Type': 'text/html' });
-                res.end(FileMeneger("front/index.html"));
+                res.writeHead(200, { 'Content-Type': 'text/html' })
+                res.end(FileMeneger("front/index.html"))
                 break
             case "/auth":
-                res.writeHead(200, { 'Content-Type': 'text/html'});
-                res.end(FileMeneger("front/auth.html"));
+                res.writeHead(200, { 'Content-Type': 'text/html'})
+                res.end(FileMeneger("front/auth.html"))
+                break
+            case "/results":
+                res.writeHead(200, { 'Content-Type': 'text/html' })
+                res.end(FileMeneger("front/infotable.html"))
                 break
 
             case "/main.css":
-                res.writeHead(200, { 'Content-Type': 'text/css' });
-                res.end(FileMeneger("front/main.css"));
+                res.writeHead(200, { 'Content-Type': 'text/css' })
+                res.end(FileMeneger("front/main.css"))
+                break
+
+            case "/csstable.css":
+                res.writeHead(200, { 'Content-Type': 'text/css' })
+                res.end(FileMeneger("front/csstable.css"))
                 break
                 
             case "/client.js":
-                res.writeHead(200, { 'Content-Type': 'text/js' });
+                res.writeHead(200, { 'Content-Type': 'text/js' })
                 var codejs = FileMeneger("front/client.js")
-                if (myapi.chekAdmin(req)) {
-                    codejs = codejs.replace("var iAdmin = false","var iAdmin = true")
-                }
                 res.end(codejs);
                 break
+
+            case "/table.js":
+                res.writeHead(200, { 'Content-Type': 'text/js' })
+                var codejs = FileMeneger("front/table.js")
+                res.end(codejs);
+                break
+
             case "/clientAdminCode.js":
-                res.writeHead(200, { 'Content-Type': 'text/js' });
+                res.writeHead(200, { 'Content-Type': 'text/js' })
                 
                 if (myapi.chekAdmin(req)) {
                     var codejs = FileMeneger("front/clientAdminCode.js")
                     codejs = codejs.replace("var iAdmin = false", "var iAdmin = true")
-                    res.end(codejs);
+                    res.end(codejs)
                 }
                 else {
                     res.end(`//ну ты не админ 
@@ -69,12 +82,21 @@ CPan.style = "display:none;"`);
         }
     }
     else if (req.method == "POST") {
-
+        if (req.url == "/postpull") {
+            var data = ''
+            req.on('data', chunk => {
+                data += chunk.toString()
+            })
+            req.on('end', () => {
+                data = JSON.parse(data)
+                console.log(data)
+            })
+            return
+        }
         myapi.APIanswer(res,req)
     }
     
 })
-
 server.listen(confg.port,confg.ip)
     
 
