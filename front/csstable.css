@@ -11,7 +11,8 @@
 .tsort td,
 .tsort th {
     text-align: center;
-    border: 2px solid #846868;
+    border: 2px solid #000000;
+    border-radius: 10px;
 }
 .tsort tbody tr {
     background: #846868;

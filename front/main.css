@@ -1,3 +1,8 @@
+
+body {
+    background-color: #24292e
+}
+
 .t {
     font-size: 100px;
     color: chartreuse
@@ -34,6 +39,7 @@
 
 .butt {
     width: 120px;
+    border-radius: 20px;
 }
 
 #Bkill{
